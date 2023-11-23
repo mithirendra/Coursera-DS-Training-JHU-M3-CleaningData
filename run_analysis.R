@@ -59,10 +59,13 @@ run_analysis <- function() {
     
     # PART 5: Create an independent table that has the average of each variable by each activity and each subject
     # Dcast table
-    final_tidy_set_table <- dcast(new_df_melted, subject + activity_label ~ variable, mean)
+    tidy_set_table <- dcast(new_df_melted, subject + activity_label ~ variable, mean)
     
     # PART 6: Create final output of tidy table/data set
+    final_tidy_set_table <- melt(tidy_set_table, id = c("subject","activity_label"))
+    final_tidy_set_table <- arrange(final_tidy_set_table, subject, activity_label)
     View(final_tidy_set_table)
+    
     write.table(final_tidy_set_table, file = "final_tidy_set_table.txt", row.name=FALSE)
 }
 
